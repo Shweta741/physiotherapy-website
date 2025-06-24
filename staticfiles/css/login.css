@@ -1,0 +1,140 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f6f1f1, #e3eaf2);
+  animation: fadeIn 1s ease-in;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #6d8b9d;
+  overflow: hidden;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.navbar a {
+  float: right;
+  color: #f9f9f9;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar a:hover {
+  background-color: #f9f9f9;
+  color: #2c3e50;
+  border-radius: 5px;
+}
+
+.navbar .brand {
+  float: left;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+/* Container */
+.container {
+  max-width: 420px;
+  margin: 5rem auto;
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+  animation: slideUp 1s ease;
+}
+
+.container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #6d8b9d;
+  background-color: #f9f9f9;
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #6d8b9d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 1rem;
+}
+
+.btn:hover {
+  background-color: #577588;
+  transform: translateY(-2px);
+}
+
+.secondary-btn {
+  background-color: #adb5bd;
+}
+
+.secondary-btn:hover {
+  background-color: #8c99a6;
+}
+
+/* Register text */
+.register-text {
+  text-align: center;
+  margin-top: 1.75rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="#" class="brand">PhysioPulse • Admin Panel</a>
+    <a href="{% url 'admin_consultation' %}">Consultation Requests</a>
+    <a href="{% url 'admin_appointments' %}">Appointment Dashboard</a>
+    <a href="{% url 'admin_feedback' %}">Feedback</a>
+    <a href="{% url 'admin_logout' %}">Logout</a>
+    
+
+  </div>
+
+  <!-- Hero Section Style -->
+  <div class="hero">
+    <h1>Welcome, Dr. Tridisha Chakraborty</h1>
+    <p>Use the dashboard below to manage all patient activities and updates.</p>
+  </div>
+
+  <!-- Summary Cards -->
+  <section class="info-section">
+    <h2>Overview</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>💬 {{ consultation_count }} Consultations</h3>
+        <p>Recent patient online consultation queries.</p>
+      </div>
+      <div class="card">
+        <h3>📅 {{ appointment_count }} Appointments</h3>
+        <p>Today's scheduled appointments.</p>
+      </div>
+      <div class="card">
+        <h3>🌟 {{ feedback_count }} Feedback</h3>
+        <p>Total feedback received this week.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chart Section -->
+  <section class="info-section">
+    <h2>Activity Stats</h2>
+    <div class="chart-container" style="max-width: 800px; margin: 0 auto;">
+      <canvas id="adminStatsChart"></canvas>
+    </div>
+  </section>
+
+  <script>
+    const ctx = document.getElementById('adminStatsChart');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Consultations', 'Appointments', 'Feedback'],
+        datasets: [{
+          label: 'Activity Overview',
+          data: [{{ consultation_count }}, {{ appointment_count }}, {{ feedback_count }}],
+          backgroundColor: ['#42a5f5', '#66bb6a', '#ffca28'],
+          borderRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+

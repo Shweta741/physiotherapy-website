@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <a href="#" class="brand"><span class="highlight">Healing Lives</span>. Motion Therapy</a>
+  {% if request.session.patient_name %}
+    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'profile' %}">My Profile</a>
+    <a href="{% url 'feedback' %}">Feedback</a>
+    <a href="{% url 'consultation_request' %}">Consult Online</a>
+  {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'register' %}">Register</a>
+  {% endif %}
+  <a href="{% url 'about' %}">About</a>
+  <a href="{% url 'home' %}">Home</a>
+</div>
+
+<!-- Hero Section -->
+<div class="hero">
+  <h1>Welcome to <span class="highlight">PhysioCare</span>{% if request.session.patient_name %}, {{ request.session.patient_name }}{% endif %}</h1>
+  <p>Your partner in recovery and well-being.</p>
+  <a href="#services" class="btn">Get Started</a>
+</div>
+
+<!-- Services Section -->
+<section class="info-section" id="services">
+  <h2>Our Services</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Rehabilitation</h3>
+      <p>Personalized rehab plans for injury recovery and post-surgery care.</p>
+    </div>
+    <div class="card">
+      <h3>Chronic Pain Relief</h3>
+      <p>Manage long-term pain with safe and effective physiotherapy techniques.</p>
+    </div>
+    <div class="card">
+      <h3>Wellness Programs</h3>
+      <p>Preventive exercises and ergonomic assessments for a healthier you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Floating Action Buttons -->
+<div class="floating-buttons">
+  <!-- WhatsApp -->
+  <a href="https://wa.me/919876543210" target="_blank" class="floating-btn" title="WhatsApp">
+    <i class="fab fa-whatsapp" style="color: #25D366; font-size: 28px;"></i>
+  </a>
+
+  <!-- Call -->
+  <a href="tel:+919876543210" class="floating-btn" title="Call">
+    <i class="fas fa-phone-alt" style="color: #007bff; font-size: 24px;"></i>
+  </a>
+
+  <!-- Chatbot -->
+  <div class="floating-btn" onclick="toggleChatbot()" title="Chat with PhysioBot">
+    <i class="fas fa-robot" style="color: #ff6b81; font-size: 24px;"></i>
+  </div>
+</div>
+
+<!-- Chatbot Popup -->
+<div class="chat-popup" id="chatPopup">
+  <div class="chat-popup-header">Ask PhysioBot</div>
+  <div class="chat-popup-body" id="chatBody">
+    <div class="bot-message">Hi! I'm your assistant. Ask me anything about physiotherapy or Dr. Tridisha.</div>
+  </div>
+  <div class="chat-popup-footer">
+    <input type="text" id="userInput" placeholder="Type your question...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Chatbot Script -->
+<script>
+  function toggleChatbot() {
+    const popup = document.getElementById("chatPopup");
+    popup.style.display = popup.style.display === "flex" ? "none" : "flex";
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("userInput");
+    const chatBody = document.getElementById("chatBody");
+    const userText = input.value.trim();
+
+    if (!userText) return;
+
+    // User message
+    const userMsg = document.createElement("div");
+    userMsg.classList.add("user-message");
+    userMsg.textContent = userText;
+    chatBody.appendChild(userMsg);
+
+    // Typing bubble
+    const typing = document.createElement("div");
+    typing.className = "typing-bubble";
+    typing.textContent = "Typing...";
+    chatBody.appendChild(typing);
+    input.value = "";
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    // Bot response
+    setTimeout(() => {
+      typing.remove();
+      const botReply = document.createElement("div");
+      botReply.classList.add("bot-message");
+
+      if (userText.toLowerCase().includes("appointment")) {
+        botReply.textContent = "You can book an appointment by clicking on 'Consult Online' or contacting Dr. Tridisha.";
+      } else if (userText.toLowerCase().includes("tridisha")) {
+        botReply.textContent = "Dr. Tridisha is a licensed physiotherapist with experience from Fortis & Indus Hospital.";
+      } else if (userText.toLowerCase().includes("pain")) {
+        botReply.textContent = "We offer pain management programs tailored to your condition.";
+      } else {
+        botReply.textContent = "I'm still learning. Try asking about appointments, services, or Dr. Tridisha.";
+      }
+
+      chatBody.appendChild(botReply);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>

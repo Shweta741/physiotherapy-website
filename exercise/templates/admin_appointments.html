@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Appointment Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/admin_appointments.css' %}">
+</head>
+<body>
+  <div class="navbar">
+    <a href="{% url 'admin_dashboard' %}" class="brand">PhysioPulse • Admin Panel</a>
+    <a href="{% url 'admin_dashboard' %}" class="back">Back to Dashboard</a>
+  </div>
+
+  <div class="container">
+    <h1>Appointment Dashboard</h1>
+
+    <!-- Search & Filter -->
+    <form method="GET" class="search-filter">
+      <input type="text" name="search" placeholder="Search patient name..." value="{{ search_query }}">
+      <select name="status">
+        <option value="All" {% if status_filter == "All" or not status_filter %}selected{% endif %}>Status: All</option>
+        <option value="Pending" {% if status_filter == "Pending" %}selected{% endif %}>Pending</option>
+        <option value="Completed" {% if status_filter == "Completed" %}selected{% endif %}>Completed</option>
+      </select>
+      <button type="submit" class="status-btn">Filter</button>
+    </form>
+
+    <!-- Appointment Cards -->
+    <div class="request-list">
+      {% for patient in patients %}
+      <div class="request-card">
+        <h3>{{ patient.full_name }}</h3>
+        <p><strong>Condition:</strong> {{ patient.conditions }}</p>
+        <p><strong>Appointment:</strong> {{ patient.appointment }}</p>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="patient_id" value="{{ patient.id }}">
+          <label>Status:
+            <select name="status">
+              <option value="Pending" {% if patient.status == "Pending" %}selected{% endif %}>Pending</option>
+              <option value="Completed" {% if patient.status == "Completed" %}selected{% endif %}>Completed</option>
+            </select>
+          </label>
+          <button type="submit" class="status-btn">Update</button>
+        </form>
+      </div>
+      {% empty %}
+        <p>No appointments found.</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
+

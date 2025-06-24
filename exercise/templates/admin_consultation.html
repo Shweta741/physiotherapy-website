@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Consultation Requests</title>
+  <link rel="stylesheet" href="{% static 'css/admin_consultation.css' %}">
+  <style>
+    .status-btn {
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .status-btn:hover {
+      background-color: #1976d2;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="{% url 'admin_dashboard' %}" class="brand">PhysioPulse • Admin Panel</a>
+    <a href="{% url 'admin_dashboard' %}" class="back">Back to Dashboard</a>
+  </div>
+
+  <div class="container">
+    <h1>Online Consultation Requests</h1>
+
+    <form method="GET" class="search-filter">
+      <input type="text" name="search" placeholder="Search patient name..." value="{{ search_query }}">
+      <select name="mode">
+        <option value="All" {% if mode_filter == "All" or not mode_filter %}selected{% endif %}>Mode: All</option>
+        <option value="Video" {% if mode_filter == "Video" %}selected{% endif %}>Video</option>
+        <option value="Call" {% if mode_filter == "Call" %}selected{% endif %}>Call</option>
+      </select>
+      <button type="submit" class="status-btn">Filter</button>
+    </form>
+
+    <div class="request-list">
+      {% for request in consultations %}
+      <div class="request-card">
+        <h3>{{ request.patient.full_name }}</h3>
+        <p><strong>Symptoms:</strong> {{ request.symptoms }}</p>
+        <p><strong>Preferred Time:</strong> {{ request.preferred_time }}</p>
+        <p><strong>Mode:</strong> {{ request.mode }}</p>
+      </div>
+      {% empty %}
+      <p>No consultation requests found.</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
+
+

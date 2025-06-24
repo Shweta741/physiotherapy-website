@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Feedback</title>
+  <link rel="stylesheet" href="{% static 'css/admin_feedback.css' %}">
+</head>
+<body>
+  <div class="navbar">
+    <a href="#" class="brand">PhysioPulse Admin</a>
+    <a href="{% url 'admin_dashboard' %}" class="back">Back to Admin Dashboard</a>
+  </div>
+
+  <div class="container">
+    <h1>Patient Feedback</h1>
+
+    <div class="sort-bar">
+      <form method="get">
+        <label for="sort">Sort by:</label>
+        <select name="sort" id="sort" onchange="this.form.submit()">
+          <option value="latest" {% if sort_option == 'latest' %}selected class="highlight"{% endif %}>Latest First</option>
+          <option value="rating_high" {% if sort_option == 'rating_high' %}selected{% endif %}>Highest Rating</option>
+          <option value="rating_low" {% if sort_option == 'rating_low' %}selected{% endif %}>Lowest Rating</option>
+        </select>
+      </form>
+    </div>
+
+    <div class="feedback-list">
+      {% for feedback in feedbacks %}
+        <div class="feedback-card">
+          <h3>{{ feedback.patient.full_name }}</h3>
+          <p class="rating-stars">
+            {% for i in "12345" %}
+              {% if forloop.counter <= feedback.rating %}
+                ⭐
+              {% else %}
+                ☆
+              {% endif %}
+            {% endfor %}
+          </p>
+          <p><strong>Feedback:</strong> {{ feedback.comment }}</p>
+          <p><small><em>{{ feedback.timestamp|date:"M d, Y H:i" }}</em></small></p>
+        </div>
+      {% empty %}
+        <p style="text-align: center;">No feedback submitted yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+
